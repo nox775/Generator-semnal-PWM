@@ -1,0 +1,3 @@
+#Alex :
+    Bride:
+        https://www.geeksforgeeks.org/electronics-engineering/what-is-serial-peripheral-interface-spi/
