@@ -1,3 +1,7 @@
 #Alex :
     Bride:
         https://www.geeksforgeeks.org/electronics-engineering/what-is-serial-peripheral-interface-spi/
+        https://www.youtube.com/watch?v=MCi7dCBhVpQ
+    PWM:
+        https://www.youtube.com/watch?v=RJ6bMb2UQvU&t=1319s
+        
