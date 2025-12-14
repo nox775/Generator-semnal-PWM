@@ -40,7 +40,7 @@ wire upnotdown;
 wire[7:0] prescale;
 
 wire pwm_en;
-wire[7:0] functions;
+wire[1:0] functions;
 wire[15:0] compare1;
 wire[15:0] compare2;
 
@@ -49,14 +49,17 @@ spi_bridge i_spi_bridge (
     .rst_n(rst_n),
     .sclk(sclk),
     .cs_n(cs_n),
-    .miso(miso),
-    .mosi(mosi)
+    .mosi(miso),
+    .miso(mosi),
+    .byte_sync(byte_sync),
+    .data_in(data_in),
+    .data_out(data_out)
 );
 
 instr_dcd i_instr_dcd (
     .clk(clk),
     .rst_n(rst_n),
-    .byte_sync(),
+    .byte_sync(byte_sync),
     .data_in(data_in),
     .data_out(data_out),
     .read(read),
