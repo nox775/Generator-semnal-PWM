@@ -14,7 +14,8 @@ module spi_bridge (
 );
 
     reg [2:0] bit_cnt = 0;      
-    reg [7:0] rx_shift = 0;     
+    reg [7:0] rx_shift = 0;
+    reg [7:0] rx_latch = 0;     // Latch to capture rx_shift at byte boundary
     reg [7:0] tx_shift = 0;     
     reg spi_done_toggle = 0;    
 
@@ -22,7 +23,7 @@ module spi_bridge (
 
         if (!rst_n) begin
 
-            bit_cnt <= 0; rx_shift <= 0; spi_done_toggle <= 0; 
+            bit_cnt <= 0; rx_shift <= 0; rx_latch <= 0; spi_done_toggle <= 0; 
 
         end else if (cs_n) begin
 
@@ -34,7 +35,10 @@ module spi_bridge (
 
             bit_cnt <= bit_cnt + 1;
 
-            if (bit_cnt == 3'b111) spi_done_toggle <= ~spi_done_toggle;
+            if (bit_cnt == 3'b111) begin
+                spi_done_toggle <= ~spi_done_toggle;
+                rx_latch <= {rx_shift[6:0], mosi};  // Capture the complete byte
+            end
 
         end
 
@@ -53,8 +57,6 @@ module spi_bridge (
         end else begin
 
             if (bit_cnt == 3'b001) begin
-
-                // Încărcăm restul de 7 biți (Bit 6..0) și un 0 la coadă
 
                 tx_shift <= {data_out[6:0], 1'b0}; 
 
@@ -90,13 +92,11 @@ module spi_bridge (
 
             spi_done_r3 <= spi_done_r2;
 
-
-
             if (spi_done_r2 != spi_done_r3) begin
 
                 byte_sync <= 1'b1;      
 
-                data_in <= rx_shift;    
+                data_in <= rx_latch;    
 
             end else begin
 
