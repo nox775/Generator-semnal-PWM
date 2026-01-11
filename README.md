@@ -15,15 +15,15 @@ The design features a modular architecture separating the communication layer fr
 
 ## ✨ Key Features
 
-* [cite_start]**🔌 Standard SPI Interface:** 4-wire slave mode (Mode 0/3 compatible) with byte-level synchronization[cite: 1].
-* [cite_start]**🎯 16-bit Precision:** Full 16-bit resolution for Period and Compare thresholds[cite: 34].
-* [cite_start]**🐌 Exponential Prescaler:** Programmable clock division ($2^n$) for a wide range of output frequencies[cite: 117].
-* [cite_start]**🔄 Shadow Registers:** Glitch-free reconfiguration (updates occur only on counter overflow/underflow)[cite: 114].
+* **🔌 Standard SPI Interface:** 4-wire slave mode (Mode 0/3 compatible) with byte-level synchronization.
+* **🎯 16-bit Precision:** Full 16-bit resolution for Period and Compare thresholds[ 34].
+* **🐌 Exponential Prescaler:** Programmable clock division ($2^n$) for a wide range of output frequencies.
+* **🔄 Shadow Registers:** Glitch-free reconfiguration (updates occur only on counter overflow/underflow).
 * **📊 Versatile PWM Modes:**
     * *Left Aligned*
     * *Right Aligned*
-    * [cite_start]*Range Mode (Between two compare values)* [cite: 145]
-* [cite_start]**🔃 Up/Down Counting:** Configurable counting direction via software[cite: 126].
+    * *Range Mode (Between two compare values)*
+* **🔃 Up/Down Counting:** Configurable counting direction via software.
 
 ---
 
@@ -33,11 +33,11 @@ The top-level module `top.v` integrates the following sub-components:
 
 | Module | Icon | Description |
 | :--- | :---: | :--- |
-| **`spi_bridge`** | 📡 | [cite_start]**PHY Layer:** Handles MOSI/MISO shifting and clock synchronization[cite: 1]. |
-| **`instr_dcd`** | 🧠 | [cite_start]**Protocol Layer:** Decodes SPI packets into Read/Write commands and Addresses[cite: 147]. |
-| **`regs`** | 🗃️ | [cite_start]**Register File:** Manages memory mapping and configuration storage[cite: 32]. |
-| **`counter`** | ⏱️ | [cite_start]**Timing Engine:** Implements the prescaler and main 16-bit up/down counter[cite: 113]. |
-| **`pwm_gen`** | ⚡ | [cite_start]**Output Logic:** Combinational logic that generates the `pwm_out` signal[cite: 138]. |
+| **`spi_bridge`** | 📡 | **PHY Layer:** Handles MOSI/MISO shifting and clock synchronization. |
+| **`instr_dcd`** | 🧠 | **Protocol Layer:** Decodes SPI packets into Read/Write commands and Addresses. |
+| **`regs`** | 🗃️ | **Register File:** Manages memory mapping and configuration storage. |
+| **`counter`** | ⏱️ | **Timing Engine:** Implements the prescaler and main 16-bit up/down counter. |
+| **`pwm_gen`** | ⚡ | **Output Logic:** Combinational logic that generates the `pwm_out` signal. |
 
 ---
 
@@ -65,26 +65,26 @@ Configuration is handled via the following 8-bit registers. 16-bit values are sp
 
 | Address | Register Name | R/W | Description |
 | :--- | :--- | :---: | :--- |
-| `0x00` | **PERIOD_L** | `RW` | [cite_start]Cycle Period (Lower Byte) [cite: 44] |
-| `0x01` | **PERIOD_H** | `RW` | [cite_start]Cycle Period (Upper Byte) [cite: 45] |
-| `0x02` | **CNTR_EN** | `RW` | [cite_start]Enable Counter (`1` = Run, `0` = Stop) [cite: 45] |
-| `0x03` | **COMP1_L** | `RW` | [cite_start]Compare Threshold 1 (Lower Byte) [cite: 46] |
-| `0x04` | **COMP1_H** | `RW` | [cite_start]Compare Threshold 1 (Upper Byte) [cite: 47] |
-| `0x05` | **COMP2_L** | `RW` | [cite_start]Compare Threshold 2 (Range Mode) [cite: 47] |
-| `0x06` | **COMP2_H** | `RW` | [cite_start]Compare Threshold 2 (Upper Byte) [cite: 48] |
-| `0x07` | **RESET** | `W` | [cite_start]Write `1` to reset counter to 0 [cite: 48] |
-| `0x08` | **VAL_L** | `R` | [cite_start]Current Counter Value (Lower Byte) [cite: 61] |
-| `0x09` | **VAL_H** | `R` | [cite_start]Current Counter Value (Upper Byte) [cite: 62] |
-| `0x0A` | **PRESCALE** | `RW` | [cite_start]Clock Divisor = $2^{Value}$ [cite: 49] |
-| `0x0B` | **UP/DOWN** | `RW` | [cite_start]`1` = Up, `0` = Down [cite: 50] |
-| `0x0C` | **PWM_EN** | `RW` | [cite_start]`1` = PWM Active, `0` = Force Low [cite: 51] |
-| `0x0D` | **FUNC** | `RW` | [cite_start]PWM Alignment Mode (See below) [cite: 52] |
+| `0x00` | **PERIOD_L** | `RW` | Cycle Period (Lower Byte) |
+| `0x01` | **PERIOD_H** | `RW` | Cycle Period (Upper Byte)  |
+| `0x02` | **CNTR_EN** | `RW` | Enable Counter (`1` = Run, `0` = Stop) |
+| `0x03` | **COMP1_L** | `RW` | Compare Threshold 1 (Lower Byte)  |
+| `0x04` | **COMP1_H** | `RW` | Compare Threshold 1 (Upper Byte) |
+| `0x05` | **COMP2_L** | `RW` | Compare Threshold 2 (Range Mode)  |
+| `0x06` | **COMP2_H** | `RW` | Compare Threshold 2 (Upper Byte)  |
+| `0x07` | **RESET** | `W` | Write `1` to reset counter to 0 |
+| `0x08` | **VAL_L** | `R` | Current Counter Value (Lower Byte)  |
+| `0x09` | **VAL_H** | `R` | Current Counter Value (Upper Byte)  |
+| `0x0A` | **PRESCALE** | `RW` | Clock Divisor = $2^{Value}$  |
+| `0x0B` | **UP/DOWN** | `RW` | `1` = Up, `0` = Down  |
+| `0x0C` | **PWM_EN** | `RW` | `1` = PWM Active, `0` = Force Low  |
+| `0x0D` | **FUNC** | `RW` | PWM Alignment Mode (See below)  |
 
 ---
 
 ## ⚙️ PWM Operation Modes
 
-[cite_start]The `FUNCTIONS` register (`0x0D`) controls the generation logic[cite: 145]:
+The `FUNCTIONS` register (`0x0D`) controls the generation logic:
 
 * `00` **Align Left:** Output High when `Counter <= Compare1`
 * `01` **Align Right:** Output High when `Counter >= Compare1`
@@ -116,13 +116,13 @@ The project includes a self-checking testbench (`testbench.v`) that verifies SPI
     Open the generated `waves.vcd` file in GTKWave.
 
 ### Test Scenarios
-* [cite_start]✅ **Test 1:** PWM Left Aligned (Period=7, Compare=3) [cite: 107]
-* [cite_start]✅ **Test 2:** Range Mode (Between Compare1 & Compare2) [cite: 108]
-* [cite_start]✅ **Test 3:** PWM Right Aligned [cite: 109]
-* [cite_start]✅ **Test 4:** Edge Case (Equal Compares) [cite: 110]
-* [cite_start]✅ **Test 5:** Trigger logic check [cite: 111]
+* ✅ **Test 1:** PWM Left Aligned (Period=7, Compare=3) 
+* ✅ **Test 2:** Range Mode (Between Compare1 & Compare2) 
+* ✅ **Test 3:** PWM Right Aligned 
+* ✅ **Test 4:** Edge Case (Equal Compares)
+* ✅ **Test 5:** Trigger logic check 
 
 ---
 
-> [cite_start]**Note:** Do not modify `top.v` as it is strictly defined for the testbench interface[cite: 21].
+> **Note:** Do not modify `top.v` as it is strictly defined for the testbench interface[ 21].
 
